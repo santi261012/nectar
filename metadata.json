@@ -1,0 +1,6 @@
+{
+  "name": "Néctar - Restaurante Gourmet",
+  "description": "Landing page de alta conversión para un restaurante gourmet con diseño premium, elegante, moderno y cinematográfico.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
