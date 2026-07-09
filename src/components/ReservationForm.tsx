@@ -81,16 +81,14 @@ export default function ReservationForm({ selectedDish, onClearDish }: Reservati
     setIsLoading(true);
     const generatedCode = `NEC-${Math.floor(1000 + Math.random() * 9000)}`;
 
-    // Simulate luxury API call with loader
-    setTimeout(() => {
-      setIsLoading(false);
-      setIsSubmitted(true);
-      setReservationCode(generatedCode);
-      onClearDish(); // clear shared state once booked
-      
-      // Auto-open WhatsApp with the pre-formatted reservation text
-      handleSendToWhatsApp(generatedCode);
-    }, 1500);
+    // Process instantly without delay ("luego luego")
+    setIsLoading(false);
+    setIsSubmitted(true);
+    setReservationCode(generatedCode);
+    onClearDish(); // clear shared state once booked
+    
+    // Immediately open WhatsApp with the pre-formatted reservation text
+    handleSendToWhatsApp(generatedCode);
   };
 
   const seatingNames = {
