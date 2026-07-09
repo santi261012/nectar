@@ -20,7 +20,7 @@ export default function WhatsAppButton() {
     if (!messageText.trim()) return;
 
     const encodedText = encodeURIComponent(messageText);
-    const phoneNumber = '525584219900'; // mockup luxury number
+    const phoneNumber = '525535784127'; // mockup luxury number
     window.open(`https://wa.me/${phoneNumber}?text=${encodedText}`, '_blank');
     setMessageText('');
     setIsOpen(false);
@@ -28,7 +28,7 @@ export default function WhatsAppButton() {
 
   const selectQuickMessage = (text: string) => {
     const encodedText = encodeURIComponent(text);
-    const phoneNumber = '525584219900';
+    const phoneNumber = '525535784127';
     window.open(`https://wa.me/${phoneNumber}?text=${encodedText}`, '_blank');
     setIsOpen(false);
   };

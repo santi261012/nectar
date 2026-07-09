@@ -49,6 +49,28 @@ export default function ReservationForm({ selectedDish, onClearDish }: Reservati
     });
   };
 
+  const getWhatsAppMessage = (codeToUse: string) => {
+    const zoneName = seatingNames[formData.seatingPreference as keyof typeof seatingNames] || formData.seatingPreference;
+    return `¡Hola! Me gustaría confirmar una reservación:
+
+👤 *Nombre:* ${formData.name}
+📞 *Teléfono:* ${formData.phone}
+✉️ *Email:* ${formData.email}
+📅 *Fecha:* ${formData.date}
+⏰ *Hora:* ${formData.time} Hrs
+👥 *Comensales:* ${formData.guests} Persona/s
+📍 *Zona:* ${zoneName}
+🎟️ *Código de Referencia:* ${codeToUse}
+📝 *Anotaciones:* ${formData.specialRequests || 'Ninguna'}`;
+  };
+
+  const handleSendToWhatsApp = (codeToUse: string) => {
+    const message = getWhatsAppMessage(codeToUse);
+    const encodedText = encodeURIComponent(message);
+    const phoneNumber = '525535784127';
+    window.open(`https://wa.me/${phoneNumber}?text=${encodedText}`, '_blank');
+  };
+
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     if (!formData.name || !formData.email || !formData.phone || !formData.date) {
@@ -57,14 +79,18 @@ export default function ReservationForm({ selectedDish, onClearDish }: Reservati
     }
 
     setIsLoading(true);
+    const generatedCode = `NEC-${Math.floor(1000 + Math.random() * 9000)}`;
 
     // Simulate luxury API call with loader
     setTimeout(() => {
       setIsLoading(false);
       setIsSubmitted(true);
-      setReservationCode(`NEC-${Math.floor(1000 + Math.random() * 9000)}`);
+      setReservationCode(generatedCode);
       onClearDish(); // clear shared state once booked
-    }, 1800);
+      
+      // Auto-open WhatsApp with the pre-formatted reservation text
+      handleSendToWhatsApp(generatedCode);
+    }, 1500);
   };
 
   const seatingNames = {
@@ -371,35 +397,46 @@ export default function ReservationForm({ selectedDish, onClearDish }: Reservati
                   </div>
                 </div>
 
-                <div className="pt-4 flex flex-col sm:flex-row gap-4">
+                <div className="pt-2 flex flex-col items-center gap-4 w-full">
                   <button
-                    onClick={() => {
-                      setIsSubmitted(false);
-                      setFormData({
-                        name: '',
-                        email: '',
-                        phone: '',
-                        date: '',
-                        time: '20:00',
-                        guests: 2,
-                        specialRequests: '',
-                        seatingPreference: 'main'
-                      });
-                    }}
-                    className="font-sans text-xs tracking-widest uppercase text-gold hover:text-white transition-colors duration-300 px-6 py-3"
+                    onClick={() => handleSendToWhatsApp(reservationCode)}
+                    className="w-full max-w-md inline-flex items-center justify-center gap-2 bg-[#25D366] hover:bg-[#20ba5a] text-white font-sans text-xs tracking-[0.2em] font-bold py-4 px-8 rounded-full shadow-lg shadow-green-500/15 transition-all duration-300 hover:-translate-y-0.5 cursor-pointer"
                   >
-                    Hacer otra reservación
+                    <svg className="w-4 h-4 fill-current" viewBox="0 0 24 24">
+                      <path d="M12.031 6.172c-3.181 0-5.767 2.586-5.768 5.766-.001 1.298.431 2.522 1.222 3.513l-.8 2.923 2.993-.785a5.734 5.734 0 003.351.984h.003c3.181 0 5.768-2.587 5.769-5.766.001-3.182-2.586-5.768-5.769-5.768zm3.395 8.16c-.15.424-.755.774-1.047.828-.271.05-.62.078-1.009-.047-.243-.078-.553-.186-.94-.355-1.63-.715-2.673-2.373-2.755-2.483-.081-.11-.661-.88-.661-1.678 0-.798.412-1.19.559-1.341.146-.151.32-.189.426-.189.106 0 .213.001.303.006.096.005.226-.036.353.272.131.321.448 1.092.487 1.171.039.08.064.172.012.277-.052.106-.078.172-.156.264-.078.093-.164.207-.234.28-.078.082-.16.17-.069.326.091.151.405.67.868 1.082.597.53 1.097.694 1.25.758.151.064.24-.002.293-.064.072-.083.308-.358.39-.481.082-.123.164-.103.277-.062.112.042.712.336.834.397.123.061.205.091.235.143.03.051.03.301-.12.725z"/>
+                    </svg>
+                    ENVIAR RESERVA POR WHATSAPP
                   </button>
-                  
-                  <button
-                    onClick={() => {
-                      // Scroll to top
-                      window.scrollTo({ top: 0, behavior: 'smooth' });
-                    }}
-                    className="bg-brand-card hover:bg-white/5 border border-white/10 text-white font-sans text-xs tracking-widest uppercase font-semibold py-3.5 px-8 rounded-full transition-all duration-300"
-                  >
-                    Volver al Inicio
-                  </button>
+
+                  <div className="flex flex-col sm:flex-row gap-4 w-full justify-center pt-2">
+                    <button
+                      onClick={() => {
+                        setIsSubmitted(false);
+                        setFormData({
+                          name: '',
+                          email: '',
+                          phone: '',
+                          date: '',
+                          time: '20:00',
+                          guests: 2,
+                          specialRequests: '',
+                          seatingPreference: 'main'
+                        });
+                      }}
+                      className="font-sans text-xs tracking-widest uppercase text-gold hover:text-white transition-colors duration-300 py-3 px-4"
+                    >
+                      Hacer otra reservación
+                    </button>
+                    
+                    <button
+                      onClick={() => {
+                        window.scrollTo({ top: 0, behavior: 'smooth' });
+                      }}
+                      className="bg-brand-card hover:bg-white/5 border border-white/10 text-white font-sans text-xs tracking-widest uppercase font-semibold py-3 px-6 rounded-full transition-all duration-300"
+                    >
+                      Volver al Inicio
+                    </button>
+                  </div>
                 </div>
               </motion.div>
             )}

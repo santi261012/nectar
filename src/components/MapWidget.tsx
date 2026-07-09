@@ -43,7 +43,7 @@ export default function MapWidget() {
                 </div>
                 <div>
                   <p className="font-sans text-xs text-gray-500 uppercase tracking-widest font-semibold">Teléfono & VIP Hotline</p>
-                  <p className="font-serif text-white text-base mt-1">+52 55 8421 9900</p>
+                  <p className="font-serif text-white text-base mt-1">+52 55 3578 4127</p>
                   <p className="font-sans text-gray-400 text-xs mt-0.5">Reservaciones especiales y eventos privados</p>
                 </div>
               </div>

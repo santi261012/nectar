@@ -127,7 +127,7 @@ export default function Footer() {
               </li>
               <li className="flex flex-col">
                 <span className="text-[10px] text-gray-500 uppercase tracking-widest font-semibold">Reserva Telefónica</span>
-                <span className="text-white text-base mt-1 font-serif">+52 55 8421 9900</span>
+                <span className="text-white text-base mt-1 font-serif">+52 55 3578 4127</span>
               </li>
             </ul>
           </div>
